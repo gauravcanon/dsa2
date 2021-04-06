@@ -58,7 +58,7 @@ jobs:
       if: always()
       needs : [setup,lint] # test-job waits for both setup-job and lint-job to complete.
       runs-on: ubuntu-latest
-      continue-on-error: true
+      continue-on-error: true # Continue on even error occured in this build
       steps:
       - name: Install dependencies
         run: |
