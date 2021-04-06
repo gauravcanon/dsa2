@@ -91,3 +91,15 @@ jobs:
           assignees: ${{github.actor}}
           labels: refactoring-needed, build-failed 
           body: Workflow failed for commit ${{github.sha}} This issue was automatically created by the GitHub Action workflow **${{ github.workflow }}**
+
+  pullrequest:
+          needs : [setup, lint, test] # List of dependent Jobs 
+          if: success()   # check if all previous (needs) dependent jobs were successfull  then only execute
+          runs-on : ubuntu-latest
+          steps:
+            - uses: actions/checkout@v2
+            - name : create pull request
+              uses: repo-sync/pull-request@v2
+              with:
+                  destination_branch: "main"   # create pull requeset on "main" branch - can be modified according to needs
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
